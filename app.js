@@ -5,6 +5,8 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require ('body-parser');
 const RoutePlayers = require('./router/player')
+const RouteTeams = require('./router/team')
+
 
 mongoose.connect('mongodb+srv://valentin_hippolyte:awzgH1VzolQFT2gw@iut.qkija.mongodb.net/myFirstDatabase?retryWrites=true&w=majority').then(()=>{
     console.log("connexion success")
@@ -13,6 +15,8 @@ mongoose.connect('mongodb+srv://valentin_hippolyte:awzgH1VzolQFT2gw@iut.qkija.mo
 });
 
 app.use(bodyParser.json());
-app.use('/api/players/', RoutePlayers);
+app.use('/players/', RoutePlayers);
+app.use('/teams/', RouteTeams);
+
 
 module.exports = app;
