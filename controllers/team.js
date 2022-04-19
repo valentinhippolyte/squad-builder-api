@@ -1,17 +1,12 @@
-const Team = require('../models/team');
+const Team = require('../models/team.js');
+const Player = require('../models/player.js');
+
 
 exports.getOneTeam = (req, res) => {
     const id = req.params.id;
-    Team.findOne({_id: id})
+    Team.findOne({_id: id}).populate("players")
     .then((team) => {
         return res.status(200).json({team}) })
-    .catch((error) => { return res.status(400).json({error}) });
-}
-
-exports.getAllTeam = (req, res) => {
-    Team.find()
-    .then((teams) => {
-        return res.status(200).json({teams}) })
     .catch((error) => { return res.status(400).json({error}) });
 }
 
@@ -41,4 +36,10 @@ exports.createTeam = (req, res) => {
     })
     .catch((error) =>{
         return res.status(400).json({error}) })
+}
+exports.getAllTeam = (req, res) => {
+    Team.find().populate("players")
+    .then((teams) => {
+        return res.status(200).json({teams}) })
+    .catch((error) => { return res.status(400).json({error}) });
 }

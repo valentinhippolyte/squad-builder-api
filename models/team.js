@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const team = mongoose.Schema({
+const Player = require('../models/player.js');
+var mongoose = require('mongoose'), Schema = mongoose.Schema;
+
+const TeamSchema = mongoose.Schema({
     name:{
         type: String, 
         required: true
@@ -7,11 +9,15 @@ const team = mongoose.Schema({
     image:{
         type: String, 
         required: true
-    }, 
+    },
     country:{
-        type: String, 
+        type: String,
         required: true
-    }
+    },
+    players: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Player'
+    }],
 });
 
-module.exports = mongoose.model('Team', team);
+module.exports = mongoose.model('Team', TeamSchema);

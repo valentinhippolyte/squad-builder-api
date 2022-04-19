@@ -1,10 +1,25 @@
-const Player = require('../models/player');
-const {body, validationResult } = require("express-validator");
+const Player = require('../models/player.js');
+const Team = require('../models/team.js');
 
+exports.createPlayer = (req, res) => {
+    const play = new Player({
+        _id: req.body.id,
+        name: req.body.name,
+        image: req.body.image,
+        team: req.body.team
+    });
+
+    play.save()
+    .then((player) => {
+        return res.status(201).json({player})
+    })
+    .catch((error) =>{
+        return res.status(400).json({error}) })
+}
 
 exports.getOnePlayer = (req, res) => {
     const id = req.params.id;
-    Player.findOne({_id: id})
+    Player.findOne({_id: id}).populate("team")
     .then((player) => {
         return res.status(200).json({player}) })
     .catch((error) => { return res.status(400).json({error}) });
@@ -12,6 +27,12 @@ exports.getOnePlayer = (req, res) => {
 
 exports.getAllPlayer = (req, res) => {
     Player.find()
+    .then((players) => {
+        return res.status(200).json({players}) })
+    .catch((error) => { return res.status(400).json({error}) });
+}
+exports.findByTeamId = (req, res) => {
+    const id = req.params.id
     .then((players) => {
         return res.status(200).json({players}) })
     .catch((error) => { return res.status(400).json({error}) });
@@ -32,15 +53,4 @@ exports.update = (req, res) => {
     .then((player) => {
         return res.status(201).json(player) })
     .catch((error) => { return res.status(400).json({error}) });
-}
-
-exports.createPlayer = (req, res) => {
-    const play = new Player(req.body);
-
-    play.save()
-    .then((player) => {
-        return res.status(201).json({player})
-    })
-    .catch((error) =>{
-        return res.status(400).json({error}) })
 }
