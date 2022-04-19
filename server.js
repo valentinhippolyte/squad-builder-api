@@ -4,5 +4,5 @@ const app = require('./app');
 const server = http.createServer(app);
 
 server.listen(3000, () => {
-    console.log("Server is running at localhost:3000")
+    console.log("Server is running at localhost:3000 yess")
 });
